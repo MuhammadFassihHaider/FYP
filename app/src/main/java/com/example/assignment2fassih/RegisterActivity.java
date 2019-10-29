@@ -103,6 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
             intent2.putExtra("email", masterEmail);
             intent2.putExtra("password", masterPassword);
             startActivity(intent2);
+            Intent intentForget = new Intent(getApplicationContext(), ForgetPasswordActivity.class);
+            intentForget.putExtra("email", masterEmail);
+            intentForget.putExtra("password", masterPassword);
         }
     }
 

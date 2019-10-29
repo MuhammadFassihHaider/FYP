@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     public static final String PASS = "myPass";
     private EditText mEmail, mPassword;
     private Button mButton;
-    private TextView mRegister;
+    private TextView mRegister, mForget;
     private Spinner mChoiceUser;
     private String[] users = {"User", "Doctor", "Guest"};
     private String masterPassword, masterEmail;
@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         mButton = findViewById(R.id.button);
         mRegister = findViewById(R.id.lnkRegister);
         mChoiceUser = findViewById(R.id.choiceSpinner);
+        mForget = findViewById(R.id.inkForgetPassword);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, users);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -72,6 +73,14 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onClick(View view) {
                 dataValidation();
+            }
+        });
+
+        mForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(getApplicationContext(), ForgetPasswordActivity.class);
+                startActivity(intent3);
             }
         });
     }
