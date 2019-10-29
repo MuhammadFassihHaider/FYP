@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private String masterEmail, masterPassword;
@@ -54,6 +57,25 @@ public class RegisterActivity extends AppCompatActivity {
         mFullName = findViewById(R.id.txtName);
     }
 
+    public static boolean isValidPassword(final String password) {
+        Pattern pattern;
+        Matcher matcher;
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    boolean isEmpty(EditText text) {
+        CharSequence str = text.getText().toString();
+        return TextUtils.isEmpty(str);
+    }
+
+    boolean isEmail(EditText text) {
+        CharSequence email = text.getText().toString();
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+    }
+
     private void dataValidation() {
         if (isEmpty(mEmail)) {
             Toast t = Toast.makeText(this, "You must enter an email to register!", Toast.LENGTH_SHORT);
@@ -71,22 +93,16 @@ public class RegisterActivity extends AppCompatActivity {
             Toast t = Toast.makeText(this, "You must enter a valid password to register!", Toast.LENGTH_SHORT);
             t.show();
             mPassword.setError("Password is required!");
+        } else if (mPassword.getText().toString().length() < 8 && !isValidPassword(mPassword.getText().toString())) {
+            Toast t = Toast.makeText(this, "You must enter a valid password to register!", Toast.LENGTH_SHORT);
+            t.show();
+            mPassword.setError("Password must have minimum 8 chars, 1 number, 1 alphabet and one special character");
         } else {
             Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
             intent2.putExtra("email", masterEmail);
             intent2.putExtra("password", masterPassword);
             startActivity(intent2);
         }
-    }
-
-    boolean isEmpty(EditText text) {
-        CharSequence str = text.getText().toString();
-        return TextUtils.isEmpty(str);
-    }
-
-    boolean isEmail(EditText text) {
-        CharSequence email = text.getText().toString();
-        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
 }
