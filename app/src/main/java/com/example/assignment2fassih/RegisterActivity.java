@@ -55,27 +55,28 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void dataValidation() {
-        if (isEmail(mEmail) == false || isEmpty(mEmail)) {
+        if (isEmpty(mEmail)) {
             Toast t = Toast.makeText(this, "You must enter an email to register!", Toast.LENGTH_SHORT);
             t.show();
             mEmail.setError("Email is required!");
-        }
-        if (isEmpty(mFullName)) {
+        } else if (isEmail(mEmail) == false) {
+            Toast t = Toast.makeText(this, "Enter a valid email to register!", Toast.LENGTH_SHORT);
+            t.show();
+            mEmail.setError("Valid email is required!");
+        } else if (isEmpty(mFullName)) {
             Toast t = Toast.makeText(this, "You must enter your name to register!", Toast.LENGTH_SHORT);
             t.show();
             mFullName.setError("Name is required!");
-        }
-
-        if (isEmpty(mPassword)) {
+        } else if (isEmpty(mPassword)) {
             Toast t = Toast.makeText(this, "You must enter a valid password to register!", Toast.LENGTH_SHORT);
             t.show();
             mPassword.setError("Password is required!");
-        }
-
+        } else {
             Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
             intent2.putExtra("email", masterEmail);
             intent2.putExtra("password", masterPassword);
             startActivity(intent2);
+        }
     }
 
     boolean isEmpty(EditText text) {
