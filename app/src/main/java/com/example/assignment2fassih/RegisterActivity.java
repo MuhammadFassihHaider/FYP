@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void setupUI(){
+    private void setupUI() {
         mEmail = findViewById(R.id.txtEmail);
         mPassword = findViewById(R.id.txtPwd);
         mRegisteration = findViewById(R.id.btnLogin);
