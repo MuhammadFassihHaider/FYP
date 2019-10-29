@@ -97,7 +97,8 @@ public class RegisterActivity extends AppCompatActivity {
             Toast t = Toast.makeText(this, "You must enter a valid password to register!", Toast.LENGTH_SHORT);
             t.show();
             mPassword.setError("Password must have minimum 8 chars, 1 number, 1 alphabet and one special character");
-        } else {
+        }
+        else {
             Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
             intent2.putExtra("email", masterEmail);
             intent2.putExtra("password", masterPassword);
