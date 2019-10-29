@@ -2,17 +2,20 @@ package com.example.assignment2fassih;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private String masterEmail, masterPassword;
-    private EditText mEmail, mPassword;
+    private EditText mEmail, mPassword, mFullName;
     private TextView mLoginLink;
     private Button mRegisteration;
     @Override
@@ -44,17 +47,45 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setupUI(){
-        mEmail = (EditText) findViewById(R.id.txtEmail);
-        mPassword = (EditText) findViewById(R.id.txtPwd);
-        mRegisteration = (Button) findViewById(R.id.btnLogin);
-        mLoginLink = (TextView) findViewById(R.id.lnkLogin);
+        mEmail = findViewById(R.id.txtEmail);
+        mPassword = findViewById(R.id.txtPwd);
+        mRegisteration = findViewById(R.id.btnLogin);
+        mLoginLink = findViewById(R.id.lnkLogin);
+        mFullName = findViewById(R.id.txtName);
     }
 
     private void dataValidation() {
+        if (isEmail(mEmail) == false || isEmpty(mEmail)) {
+            Toast t = Toast.makeText(this, "You must enter an email to register!", Toast.LENGTH_SHORT);
+            t.show();
+            mEmail.setError("Email is required!");
+        }
+        if (isEmpty(mFullName)) {
+            Toast t = Toast.makeText(this, "You must enter your name to register!", Toast.LENGTH_SHORT);
+            t.show();
+            mFullName.setError("Name is required!");
+        }
+
+        if (isEmpty(mPassword)) {
+            Toast t = Toast.makeText(this, "You must enter a valid password to register!", Toast.LENGTH_SHORT);
+            t.show();
+            mPassword.setError("Password is required!");
+        }
+
             Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
             intent2.putExtra("email", masterEmail);
             intent2.putExtra("password", masterPassword);
             startActivity(intent2);
+    }
+
+    boolean isEmpty(EditText text) {
+        CharSequence str = text.getText().toString();
+        return TextUtils.isEmpty(str);
+    }
+
+    boolean isEmail(EditText text) {
+        CharSequence email = text.getText().toString();
+        return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
 }
