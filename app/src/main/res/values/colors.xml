@@ -13,4 +13,6 @@
     <color name="divider_or">#999999</color>
     <color name="account">#999999</color>
     <color name="pureWhite">#FFFFFF</color>
+    <color name="AccentRed">#FF4C4C</color>
+    <color name="Red">#FF0000</color>
 </resources>

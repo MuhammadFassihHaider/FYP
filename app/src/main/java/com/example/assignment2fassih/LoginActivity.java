@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     public static final String PASS = "myPass";
     private EditText mEmail, mPassword;
     private Button mButton;
-    private TextView mRegister;
+    private TextView mRegister, mForget;
     private Spinner mChoiceUser;
     private String[] users = {"User", "Doctor", "Guest"};
     private String masterPassword, masterEmail;
@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         mButton = findViewById(R.id.button);
         mRegister = findViewById(R.id.lnkRegister);
         mChoiceUser = findViewById(R.id.choiceSpinner);
+        mForget = findViewById(R.id.inkForgetPassword);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, users);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -74,11 +75,19 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 dataValidation();
             }
         });
+
+        mForget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(getApplicationContext(), ForgetPasswordActivity.class);
+                startActivity(intent3);
+            }
+        });
     }
 
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {
-
+        // TODO - Custom Code
     }
 
     @Override
@@ -90,10 +99,18 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
 
         if (mEmail.getText().toString().equals(masterEmail) && mPassword.getText().toString().equals(masterPassword)) {
             Intent intent = new Intent(this, HomeActivity.class);
+            Toast toast = Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT);
+            toast.show();
             startActivity(intent);
-        } else if (mEmail.getText().toString().equals("fassih") && mPassword.getText().toString().equals("123")) {
+
+        } else if (mEmail.getText().toString().equals("fassih@gmail.com") && mPassword.getText().toString().equals("123456a!")) {
             Intent intent = new Intent(this, HomeActivity.class);
+            Toast toast = Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT);
+            toast.show();
             startActivity(intent);
+        } else{
+            Toast toast = Toast.makeText(this, "Wrong password or email", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 

@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         android:orientation="vertical">
 
         <TextView
@@ -18,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="80dp"
             android:text="Registration"
-            android:textColor="@color/orange"
+            android:textColor="#FF0000"
             android:textSize="25dp"
             android:textStyle="bold" />
 
@@ -29,13 +30,14 @@
             android:layout_marginLeft="100dp"
             android:layout_marginTop="20dp"
             android:text="Full Name"
-            android:textColor="@color/orange" />
+            android:textColor="#FF0000" />
+
         <EditText
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
-            android:ems="10"/>
+            android:ems="10" />
 
         <TextView
             android:id="@+id/secTxt"
@@ -43,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:text="Email"
-            android:textColor="@color/orange" />
+            android:textColor="#FF0000" />
+
         <EditText
             android:id="@+id/txtEmail"
             android:layout_width="wrap_content"
@@ -57,14 +60,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:text="Password"
-            android:textColor="@color/orange" />
+            android:textColor="#FF0000" />
+
         <EditText
             android:id="@+id/txtPwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
-            android:inputType="textPassword"
-            android:ems="10" />
+            android:ems="10"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/btnLogin"
@@ -72,7 +76,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
-            android:text="Register" />
+            android:text="Register"
+            android:textColor="#FF0000" />
 
         <TextView
             android:id="@+id/lnkLogin"
@@ -82,7 +87,7 @@
             android:gravity="center"
             android:onClick="test"
             android:text="Already Registered? Login here"
-            android:textColor="@color/orange"
+            android:textColor="#FF0000"
             android:textSize="20dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

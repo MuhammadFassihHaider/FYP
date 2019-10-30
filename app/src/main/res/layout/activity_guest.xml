@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Guest Module"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="#FF0000"
+            tools:layout_editor_absoluteX="101dp"
+            tools:layout_editor_absoluteY="67dp" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/StrokeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="Record Ecg"
+            android:textColor="#FF0000"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:layout_editor_absoluteX="26dp" />
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/StrokeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="Analyze Ecg"
+            android:textColor="#FF0000"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:layout_editor_absoluteX="269dp" />
+
+        <Button
+            android:id="@+id/button4"
+            style="@style/StrokeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="Share Ecg"
+            android:textColor="#FF0000"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:layout_editor_absoluteX="158dp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="393dp"
+            android:layout_height="313dp"
+            app:srcCompat="@drawable/ecg_signal"
+            tools:layout_editor_absoluteX="9dp"
+            tools:layout_editor_absoluteY="125dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".HomeActivity">
 
     <Button
@@ -12,21 +13,42 @@
         android:layout_width="128dp"
         android:layout_height="52dp"
         android:text="Record ECG"
+        android:textColor="#FF0000"
+        android:textColorLink="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.559" />
+        app:layout_constraintVertical_bias="0.547" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home"
+        android:text="Home Screen"
+        android:textColor="#FF0000"
+        android:textColorLink="#FF0000"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/recordECGSignal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.368" />
+
+    <Button
+        android:id="@+id/button13"
+        style="@style/StrokeButtonStyle"
+        android:layout_width="155dp"
+        android:layout_height="47dp"
+        android:text="connect device"
+        android:textColor="#ff0000"
+        android:textColorLink="#ff0000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.644" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
