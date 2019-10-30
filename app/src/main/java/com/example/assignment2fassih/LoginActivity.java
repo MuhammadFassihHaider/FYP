@@ -65,10 +65,10 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         masterPassword = mPassword.getText().toString();
         FirebaseUser user = mAuth.getCurrentUser();
 
-        if(user != null){
+        /*if(user != null){
             finish();
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-        }
+        }*/
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, users);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChoiceUser.setAdapter(adapter);

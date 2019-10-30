@@ -2,16 +2,24 @@ package com.example.assignment2fassih;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
     private Button mForgetButton;
     private EditText mEmail;
     private String masterEmail, masterPassword;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,25 +27,37 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         setupUI();
         setupListeners();
     }
-
+    private void setupUI() {
+        mForgetButton = (Button) findViewById(R.id.btnForget);
+        mEmail = (EditText) findViewById(R.id.txtForgetPassword);
+        mAuth = FirebaseAuth.getInstance();
+    }
     private void setupListeners() {
         mForgetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                masterEmail = null;
-                masterPassword = null;
-                Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                i.putExtra("email", masterEmail);
-                i.putExtra("password", masterPassword);
-                startActivity(i);
+                if (TextUtils.isEmpty(mEmail.getText().toString())) {
+                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else{
+                    mAuth.sendPasswordResetEmail(mEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ForgetPasswordActivity.this, "Password Reset Email Sent!", Toast.LENGTH_SHORT).show();
+                                finish();
+                                startActivity(new Intent(ForgetPasswordActivity.this, LoginActivity.class));
+                            } else {
+                                Toast.makeText(ForgetPasswordActivity.this, "Error In Sending Password Reset Email", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
             }
         });
     }
-
-    private void setupUI() {
-        mForgetButton = (Button) findViewById(R.id.btnForget);
-        mEmail = (EditText) findViewById(R.id.txtForgetPassword);
-        masterEmail = getIntent().getStringExtra("email");
-        masterPassword = getIntent().getStringExtra("password");
-    }
 }
+
+
+
