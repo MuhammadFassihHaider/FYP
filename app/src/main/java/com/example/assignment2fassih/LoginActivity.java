@@ -1,7 +1,9 @@
 package com.example.assignment2fassih;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +17,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class LoginActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static final String MY_PREFS = "myPrefs";
     public static final String USER = "myUser";
@@ -25,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     private Spinner mChoiceUser;
     private String[] users = {"User", "Doctor", "Guest"};
     private String masterPassword, masterEmail;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +49,10 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         }*/
 
         setupUI();
-        setupListners();
+        setupListeners();
     }
 
     private void setupUI(){
-        masterEmail = getIntent().getStringExtra("email");
-        masterPassword = getIntent().getStringExtra("password");
 
         mEmail = findViewById(R.id.editText);
         mPassword = findViewById(R.id.editText2);
@@ -53,14 +60,22 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
         mRegister = findViewById(R.id.lnkRegister);
         mChoiceUser = findViewById(R.id.choiceSpinner);
         mForget = findViewById(R.id.inkForgetPassword);
+        mAuth = FirebaseAuth.getInstance();
+        masterEmail = mEmail.getText().toString();
+        masterPassword = mPassword.getText().toString();
+        FirebaseUser user = mAuth.getCurrentUser();
 
+        if(user != null){
+            finish();
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, users);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChoiceUser.setAdapter(adapter);
         mChoiceUser.setOnItemSelectedListener(this);
     }
 
-    private void setupListners(){
+    private void setupListeners(){
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,22 +111,13 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void openHomeActivity() {
-
-        if (mEmail.getText().toString().equals(masterEmail) && mPassword.getText().toString().equals(masterPassword)) {
+         /*else if (mEmail.getText().toString().equals("fassih@gmail.com") && mPassword.getText().toString().equals("123456a!")) {
             Intent intent = new Intent(this, HomeActivity.class);
             Toast toast = Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT);
             toast.show();
             startActivity(intent);
+        }*/
 
-        } else if (mEmail.getText().toString().equals("fassih@gmail.com") && mPassword.getText().toString().equals("123456a!")) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            Toast toast = Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT);
-            toast.show();
-            startActivity(intent);
-        } else{
-            Toast toast = Toast.makeText(this, "Wrong password or email", Toast.LENGTH_SHORT);
-            toast.show();
-        }
     }
 
     boolean isEmpty(EditText text) {
@@ -138,7 +144,17 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             t.show();
             mPassword.setError("Password is required!");
         } else {
-            openHomeActivity();
+            mAuth.signInWithEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
+                    }else{
+                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
