@@ -3,7 +3,6 @@ package com.example.assignment2fassih;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
        /* SharedPreferences pref = getSharedPreferences(MY_PREFS,MODE_PRIVATE);
         String username = pref.getString(USER, null);
@@ -88,6 +87,9 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onClick(View view) {
                 dataValidation();
+
+                /*startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();*/
             }
         });
 
@@ -148,7 +150,7 @@ public class LoginActivity extends AppCompatActivity implements AdapterView.OnIt
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                     }else{
                         Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();

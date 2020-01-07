@@ -9,9 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,13 +24,15 @@ public class RegisterActivity extends AppCompatActivity {
     private String masterEmail, masterPassword;
     private EditText mEmail, mPassword, mFullName;
     private TextView mLoginLink;
-    private Button mRegisteration;
+    private Button mRegistration;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registeration);
 
         setupUI();
+        mAuth = FirebaseAuth.getInstance();
         setupListners();
     }
 
@@ -39,12 +45,29 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        mRegisteration.setOnClickListener(new View.OnClickListener() {
+        mRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                masterEmail = mEmail.getText().toString();
-                masterPassword = mPassword.getText().toString();
-                dataValidation();
+                if (dataValidation()){
+                    masterEmail = mEmail.getText().toString().trim();
+                    masterPassword = mPassword.getText().toString().trim();
+
+                    mAuth.createUserWithEmailAndPassword(masterEmail, masterPassword) .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if(task.isSuccessful()){
+                                sendEmailVerification();
+                            }else{
+                                Toast.makeText(RegisterActivity.this,"Registration Failed",Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    });
+
+
+                }
             }
         });
     }
@@ -52,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setupUI(){
         mEmail = findViewById(R.id.txtEmail);
         mPassword = findViewById(R.id.txtPwd);
-        mRegisteration = findViewById(R.id.btnLogin);
+        mRegistration = findViewById(R.id.btnLogin);
         mLoginLink = findViewById(R.id.lnkLogin);
         mFullName = findViewById(R.id.txtName);
     }
@@ -76,7 +99,8 @@ public class RegisterActivity extends AppCompatActivity {
         return (!TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches());
     }
 
-    private void dataValidation() {
+    private Boolean dataValidation() {
+        Boolean result = false;
         if (isEmpty(mEmail)) {
             Toast t = Toast.makeText(this, "You must enter an email to register!", Toast.LENGTH_SHORT);
             t.show();
@@ -98,10 +122,27 @@ public class RegisterActivity extends AppCompatActivity {
             t.show();
             mPassword.setError("Password must have minimum 8 chars, 1 number, 1 alphabet and one special character");
         } else {
-            Intent intent2 = new Intent(getApplicationContext(), LoginActivity.class);
-            intent2.putExtra("email", masterEmail);
-            intent2.putExtra("password", masterPassword);
-            startActivity(intent2);
+            result = true;
+        }
+        return result;
+    }
+
+    private void sendEmailVerification(){
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if(firebaseUser!=null){
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(RegisterActivity.this, "Successfully Registered, Verification mail sent!", Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                        finish();
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    }else{
+                        Toast.makeText(RegisterActivity.this, "Verification mail has not been sent!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
