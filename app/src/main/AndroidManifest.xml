@@ -30,7 +30,8 @@
         <activity android:name=".HomeActivity"></activity>
         <activity android:name=".RecordECGActivity"/>
         <activity android:name=".Pag1"/>
-        <activity android:name=".Pag2"/>
+        <activity android:name=".Pag2"
+            android:screenOrientation="landscape"/>
         <activity android:name=".MainActivity"
             android:screenOrientation="landscape"
             />

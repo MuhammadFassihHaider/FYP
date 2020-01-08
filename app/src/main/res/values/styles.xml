@@ -29,7 +29,7 @@
 
     <style name="StrokeButtonStyle" parent="SolidButtonStyle">
         <item name="android:background">@drawable/stroke_bg</item>
-        <item name="android:textColor">@color/orange</item>
+        <item name="android:textColor">@color/AccentRed</item>
     </style>
 
     <style name="ToolbarStyle">
